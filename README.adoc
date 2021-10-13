@@ -1,0 +1,82 @@
+= Kraftmuschel 
+:author: Urs Roesch
+
+== A collection of tiny personal powershell scripts 
+
+== Definition
+
+--
+Kraft _noun, feminine (plural: Kräfte)_::
+force _n_ (often used), effect _n_
+  less common:::
+    **power** _n_ (physics), energy _n_, employee _n_, 
+    worker _n_, ability _n_, load _n_, vigor^AE^ _n_, vigour^BE^ _n_, 
+    potency _n_, vitality _n_, vim _n [colloq.]_, verdure _n_, 
+    puissance _n_, oomph _n_, virility _n_
+--
+
+--
+**Muschel** _noun, feminine_::
+ **shell** n (often used), clam n
+ less common::: 
+   sea shell _n_, seashell _n_, common mussel _n (zoology)_, 
+   mouthpiece _n_, earpiece _n_ 
+--
+
+== Usage
+
+=== default-browser.ps1
+
+Small script to set the default browser in `HKCU` to a browser of choice.
+This script was originally conceived in an virtual environment where each
+login spawned a new machine an the user settings were not kept across
+sessions. 
+
+[source,console]
+.Firefox 
+----
+PS> default-browser.ps1 -BrowserName Firefox
+----
+
+
+[source,console]
+.Chrome
+----
+PS> default-browser.ps1 -BrowserName Chrome
+----
+
+
+=== shortcuts.ps1
+
+Script to help setup shortcuts of programs and powershell scripts in the
+Windows Menu structure or at startup.
+
+==== Examples 
+
+Modify the the `shortcuts.ps1` script to fit your needs by adding code to
+end of the script. 
+
+[source,powershell]
+.Powershell shortcut w/o arguments
+----
+Create-PowershellShortcut `
+  -Path "$MenuDir\Startup\01_shortcuts.lnk" `
+  -Script "$PSScriptRoot\shortcuts.ps1"
+----
+
+[source,powershell]
+.Powershell shortcut w/ arguments
+----
+Create-PowershellShortcut `
+  -Path "$MenuDir\Startup\00_default-browser.lnk" `
+  -Script "$PSScriptRoot\default-browser.ps1" `
+  -Arguments "-BrowserName Firefox"
+----
+
+[source,powershell]
+.Executable shortcut
+----
+Create-Shortcut `
+ -Path "$MenuDir\Notepad++.lnk" `
+ -Command "C:\AppDir\Notepad++\NotepadPortable.exe"
+----

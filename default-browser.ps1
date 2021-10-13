@@ -1,12 +1,18 @@
-# -----------------------------------------------------------------------------
-# Small script to set the default browser in HKCU to a browser of choice.
-#   This script was originally conceived in an virtual environment where each
-#   login spawned a new machine an the user settings were not kept across
-#   sessions. 
-# -----------------------------------------------------------------------------
+<# 
+.DESCRIPTION
+Small script to set the default browser in HKCU to a browser of choice. `
+This script was originally conceived in an virtual environment where each `
+login spawned a new machine an the user settings were not kept across
+sessions. 
+
+.PARAMETER BrowserName
+Currently these browsers are supported:
+  * Firefox
+  * Chrome 
+#>
 
 Param (
-  $BrowserName = "Firefox" 
+  [String] $BrowserName = "Firefox" 
 )
 
 # -----------------------------------------------------------------------------
@@ -69,12 +75,12 @@ Function Create-RegistryTree() {
 
 Function DefaultBrowser() {
   Param(
-    [String] $Name
+    [String] $BrowserName
   )
   # This is pretty shitty but I haven't found a way
   # to initiate a class without litterally calling it
-  $WebBrowser = Switch ($Name) {
-    'Chrome' { [Chrome]::new(); Break; }
+  $WebBrowser = Switch ($BrowserName) {
+    'Chrome'  { [Chrome]::new(); Break; }
     Default { [Firefox]::new() }
   }
 
@@ -86,4 +92,4 @@ Function DefaultBrowser() {
 # -----------------------------------------------------------------------------
 # Main
 # -----------------------------------------------------------------------------
-DefaultBrowser -Name $BrowserName
+DefaultBrowser -BrowserName $BrowserName
