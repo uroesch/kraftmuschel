@@ -80,3 +80,27 @@ Create-Shortcut `
  -Path "$MenuDir\Notepad++.lnk" `
  -Command "C:\AppDir\Notepad++\NotepadPortable.exe"
 ----
+
+=== base64.ps1
+
+Encode or decode content to base64.
+
+==== Examples 
+
+.Encode to Base64
+[source,console]
+----
+PS> base64.ps1 `
+  -Method Encode `
+  -Path C:\Putty\putty.exe `
+  -Destination  putty.exe.b64
+----
+
+.Decode Base64
+[source,console]
+----
+PS> base64.ps1 `
+  -Method Decode `
+  -Path  putty.exe.b64 `
+  -Destination C:\Putty\putty.exe
+----
