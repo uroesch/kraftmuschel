@@ -104,3 +104,60 @@ PS> base64.ps1 `
   -Path  putty.exe.b64 `
   -Destination C:\Putty\putty.exe
 ----
+
+=== Module IniConfig.psm1
+
+A module to read and write ini files.
+
+Exports two functions `Write-IniConfig` and `Read-IniConfig`
+usage ist documented in the `write-ini.ps1` and `read-ini.ps1`
+sample files.
+
+
+==== Examples
+
+.Read ini file
+[source,powershell]
+----
+Using Module "..\lib\IniConfig.psm1"
+
+$Ini = Read-IniFile -IniFile $File
+
+# Print all Sections found in INI file
+$Ini.Sections()
+
+# Dump a representation of the parsed INI file
+$Ini.Dump()
+
+# Return Section <section> as a hashtable
+$Ini.Section("App")
+$Ini.Section("Config")
+----
+
+
+.Write ini file
+[source,powershell]
+----
+Using Module "..\lib\IniConfig.psm1"
+
+$Config = @{
+  App    = @{ Name  = "TestApp" }
+  Config = @{ Theme = "Rainbow" }
+}
+
+# Initiate INI file for writing 
+$Ini = Write-IniFile -IniFile $File -Struct $Config
+
+# Print content in INI format
+$Ini.Dump()
+
+# List sections
+$Ini.Sections()
+
+# Access Sections
+$Ini.Section("App")
+$Ini.Section("Config")
+
+# Write to to file
+$Ini.Commit()
+----
