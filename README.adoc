@@ -109,7 +109,7 @@ PS> base64.ps1 `
 
 A module to read and write ini files.
 
-Exports two functions `Write-IniConfig` and `Read-IniConfig`
+Exports two functions `Write-IniFile` and `Read-IniFile`
 usage ist documented in the `write-ini.ps1` and `read-ini.ps1`
 sample files.
 
