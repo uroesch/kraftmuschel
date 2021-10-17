@@ -1,0 +1,35 @@
+# -----------------------------------------------------------------------------
+# Run nightly build verification
+# Author: Urs Roesch https://github.com/uroesch
+# Version: 0.2.0
+# -----------------------------------------------------------------------------
+name: powershell-test
+
+on:
+  push:
+    branches:
+    - workflow/*
+  pull_request:
+    branches:
+    - main
+  schedule:
+    - cron: '13 4 * * *' # Sync submodules daily
+  workflow_dispatch:
+
+jobs:
+  powershell-test:
+    timeout-minutes: 90
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+        - windows-latest
+
+    steps:
+    - name: Find powershell versions
+      shell: bash
+      run: |+2
+        ls -l /drive/
+        find /drive/c/ | grep -i powershell
+
