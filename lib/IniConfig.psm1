@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # Description: Module to read INI files
 # Author: Urs Roesch <github@bun.ch>
-# Version: 0.1.0
+# Version: 0.2.0
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
@@ -41,7 +41,6 @@ Class IniConfig {
   }
 
   [Object] Section([String] $Key) {
-    $Section = @{}
     Return $This.Struct[$Key]
   }
 
@@ -84,7 +83,7 @@ Class ReadIniConfig : IniConfig {
     If ($This.Parsed) { return }
     $Content = Get-Content $This.File
     $Section = ''
-    $This.Struct = @{}
+    $This.Struct = [ordered]@{}
     Foreach ($Line in $Content) {
       Switch -regex ($Line) {
         "^\s*;" {
@@ -92,7 +91,7 @@ Class ReadIniConfig : IniConfig {
         }
         "^\s*\[" {
           $Section = $Line -replace "[\[\]]", ""
-          $This.Struct.Add($Section.Trim(), @{})
+          $This.Struct.Add($Section.Trim(), [ordered]@{})
         }
         ".*=.*" {
           ($Name, $Value) = $Line.split("=")
