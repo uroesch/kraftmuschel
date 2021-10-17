@@ -30,6 +30,6 @@ jobs:
     - name: Find powershell versions
       shell: bash
       run: |+2
-        ls -l /drive/
-        find /drive/c/ | grep -i powershell
+        ls -l /
+        find /c/ | grep -i powershell
 
