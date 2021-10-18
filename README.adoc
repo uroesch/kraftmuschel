@@ -1,7 +1,7 @@
-= Kraftmuschel 
+= Kraftmuschel
 :author: Urs Roesch
 
-== A collection of tiny personal powershell scripts 
+== A collection of tiny personal powershell scripts
 
 == Definition
 
@@ -9,18 +9,18 @@
 Kraft _noun, feminine (plural: Kräfte)_::
 force _n_ (often used), effect _n_
   less common:::
-    **power** _n_ (physics), energy _n_, employee _n_, 
-    worker _n_, ability _n_, load _n_, vigor^AE^ _n_, vigour^BE^ _n_, 
-    potency _n_, vitality _n_, vim _n [colloq.]_, verdure _n_, 
+    **power** _n_ (physics), energy _n_, employee _n_,
+    worker _n_, ability _n_, load _n_, vigor^AE^ _n_, vigour^BE^ _n_,
+    potency _n_, vitality _n_, vim _n [colloq.]_, verdure _n_,
     puissance _n_, oomph _n_, virility _n_
 --
 
 --
 **Muschel** _noun, feminine_::
  **shell** n (often used), clam n
- less common::: 
-   sea shell _n_, seashell _n_, common mussel _n (zoology)_, 
-   mouthpiece _n_, earpiece _n_ 
+ less common:::
+   sea shell _n_, seashell _n_, common mussel _n (zoology)_,
+   mouthpiece _n_, earpiece _n_
 --
 
 == Usage
@@ -30,10 +30,10 @@ force _n_ (often used), effect _n_
 Small script to set the default browser in `HKCU` to a browser of choice.
 This script was originally conceived in an virtual environment where each
 login spawned a new machine an the user settings were not kept across
-sessions. 
+sessions.
 
 [source,console]
-.Firefox 
+.Firefox
 ----
 PS> default-browser.ps1 -BrowserName Firefox
 ----
@@ -51,10 +51,10 @@ PS> default-browser.ps1 -BrowserName Chrome
 Script to help setup shortcuts of programs and powershell scripts in the
 Windows Menu structure or at startup.
 
-==== Examples 
+==== Examples
 
 Modify the the `shortcuts.ps1` script to fit your needs by adding code to
-end of the script. 
+end of the script.
 
 [source,powershell]
 .Powershell shortcut w/o arguments
@@ -85,7 +85,7 @@ Create-Shortcut `
 
 Encode or decode content to base64.
 
-==== Examples 
+==== Examples
 
 .Encode to Base64
 [source,console]
@@ -126,14 +126,23 @@ $Ini = Read-IniFile -IniFile $File
 # Print all Sections found in INI file
 $Ini.Sections()
 
-# Dump a representation of the parsed INI file
-$Ini.Dump()
-
 # Return Section <section> as a hashtable
 $Ini.Section("App")
 $Ini.Section("Config")
-----
 
+# Add section at the beginning with one key value pair
+$Ini.InsertSection("First", @{ First = "Some stuff"})
+
+# Add an empty section at the end
+$Ini.AddSection("Trailer")
+
+# Add a key value pair to section "Trailer"
+$Ini.Section('Trailer').Add("Nearly the End", "This is not yet the end")
+$Ini.Section('Trailer').Add("End", "This is the end")
+
+# Dump a representation of the parsed INI file
+$Ini.Dump()
+----
 
 .Write ini file
 [source,powershell]
@@ -141,22 +150,35 @@ $Ini.Section("Config")
 Using Module "..\lib\IniConfig.psm1"
 
 $Config = @{
-  App    = @{ Name  = "TestApp" }
-  Config = @{ Theme = "Rainbow" }
+  App = @{
+    Name = "TestApp"
+    Path = "C:\Program Files\TestApp"
+  }
 }
 
-# Initiate INI file for writing 
+# Initiate INI file for writing
 $Ini = Write-IniFile -IniFile $File -Struct $Config
-
-# Print content in INI format
-$Ini.Dump()
 
 # List sections
 $Ini.Sections()
 
 # Access Sections
 $Ini.Section("App")
-$Ini.Section("Config")
+
+# Add Key to existing section app
+$Ini.Section("App").Add("Exe", "TestApp.exe")
+
+# Add empty section Config
+$Ini.AddSection("Config")
+$Ini.Section("Config").Add("Theme", "Night")
+$Ini.Section("Config").Add("Font", "Comic Sans")
+$Ini.Section("Config").Add("Font Size", 12)
+
+# Update item in Section Config
+$Ini.Section("Config")["Theme"] = "Rainbow"
+
+# Print content in INI format
+$Ini.Dump()
 
 # Write to to file
 $Ini.Commit()
