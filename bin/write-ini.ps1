@@ -1,4 +1,4 @@
-<# 
+<#
 .SYNPOSIS
 Example script for writing ini files
 
@@ -17,30 +17,35 @@ Param(
 # Main
 # -----------------------------------------------------------------------------
 $Config = @{
-  App = @{ 
+  App = @{
     Name = "TestApp"
-    Path = "C:\Program Files\TestApp" 
-    Exe  = "TestApp.exe" 
-  }
-  Config = @{ 
-    Theme       = "Rainbow"
-    Font        = "Comic Sans"
-    "Font Size" = "12"
+    Path = "C:\Program Files\TestApp"
   }
 }
 
-# Initiate INI file for writing 
+# Initiate INI file for writing
 $Ini = Write-IniFile -IniFile $File -Struct $Config
-
-# Print content in INI format
-$Ini.Dump()
 
 # List sections
 $Ini.Sections()
 
 # Access Sections
 $Ini.Section("App")
-$Ini.Section("Config")
+
+# Add Key to existing section app
+$Ini.Section("App").Add("Exe", "TestApp.exe")
+
+# Add empty section Config
+$Ini.AddSection("Config")
+$Ini.Section("Config").Add("Theme", "Night")
+$Ini.Section("Config").Add("Font", "Comic Sans")
+$Ini.Section("Config").Add("Font Size", 12)
+
+# Update item in Section Config
+$Ini.Section("Config")["Theme"] = "Rainbow"
+
+# Print content in INI format
+$Ini.Dump()
 
 # Write to to file
 $Ini.Commit()
